@@ -29,12 +29,21 @@ Like `RT::Action::LinearEscalate`, `RT::Action::IncrementPriority` can also
 be run silently (i.e. without creating a transaction or updating the
 LastUpdated timestamp). 
 
-This can be accomplished by adding the argument UpdateLastUpdated set to 0: 
+This can be accomplished by adding the argument `UpdateLastUpdated` set to 0: 
 ```bash
     rt-crontool --search RT::Search::FromSQL \
     --search-arg "(Status='new' OR Status='open')" \
     --action RT::Action::IncrementPriority \
     --action-arg "UpdateLastUpdated: 0"
+```
+
+There is also an option `RecordTransaction` which when set to 1 will cause the 
+priority incrementing to be recorded as a transaction on the ticket:
+```bash
+    rt-crontool --search RT::Search::FromSQL \
+    --search-arg "(Status='new' OR Status='open')" \
+    --action RT::Action::IncrementPriority \
+    --action-arg "RecordTransaction: 1"
 ```
 
 RT VERSION
