@@ -12,3 +12,6 @@ pod2htm*.tmp
 /MYMETA.*
 /t/tmp
 /xt/tmp
+README
+META.yml
+inc/
