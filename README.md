@@ -1,43 +1,45 @@
 NAME
 ----
-RT-Extension-IncrementPriority - adds action RT::Action::IncrementPriority 
+`RT-Extension-IncrementPriority` - adds action `RT::Action::IncrementPriority` 
 to increment a ticket's priority by one each time it is run.
 
 DESCRIPTION
 -----------
-This extension adds a new Action called RT::Action::IncrementPriority
-which ignores ticket due dates and simply increments Priority by one
-(unless the ticket has already reached or exceeded FinalPriority in
+This extension adds a new Action called `RT::Action::IncrementPriority`
+which ignores ticket due dates and simply increments `Priority` by one
+(unless the ticket has already reached or exceeded `FinalPriority` in
 which case it does nothing). This is in contrast to
-RT::Action::LinearEscalate and RT::Action::EscalatePriority which both
+`RT::Action::LinearEscalate` and `RT::Action::EscalatePriority` which both
 update priority based on due date.
 
 This is useful when tickets do not have due dates but for which it is
 nonetheless desirable to periodically increment the priority, especially
 when updates are based on some search criteria (which can be specified
-in the call to rt-crontool).
+in a call to `rt-crontool`).
 
 For example, one could increment the priority of all 'new' or 'open'
-(but perhaps not 'stalled') by running rt-crontool on an hourly basis
-like this:
-
+(but not 'stalled') ticket by running `rt-crontool` on an hourly basis:
+```bash
     rt-crontool --search RT::Search::FromSQL \
     --search-arg "(Status='new' OR Status='open')" \
     --action RT::Action::IncrementPriority
+```
 
-Like RT::Action::LinearEscalate, RT::Action::IncrementPriority can also
+Like `RT::Action::LinearEscalate`, `RT::Action::IncrementPriority` can also
 be run silently (i.e. without creating a transaction or updating the
-LastUpdated timestamp). This can be accomplished by adding the argument
-UpdateLastUpdated set to 0. For example:
+LastUpdated timestamp). 
 
+This can be accomplished by adding the argument UpdateLastUpdated set to 0: 
+```bash
     rt-crontool --search RT::Search::FromSQL \
     --search-arg "(Status='new' OR Status='open')" \
     --action RT::Action::IncrementPriority \
     --action-arg "UpdateLastUpdated: 0"
+```
 
 RT VERSION
 ----------
-    Tested with RT 4.2, and should work with 4.0 as well.
+Tested with RT 4.2. Should work with 4.0 as well.
 
 INSTALLATION
 ------------
@@ -49,35 +51,23 @@ INSTALLATION
 ```
 
 2. Edit your /opt/rt4/etc/RT_SiteConfig.pm
-        If you are using RT 4.2 or greater, add this line:
+    - If you are using RT 4.2 or greater, add the line: `Plugin('RT::Extension::IncrementPriority');`.
+    - For RT 4.0, add the line: `Set(@Plugins, qw(RT::Extension::IncrementPriority));`
+(or add RT::Extension::IncrementPriority to your existing @Plugins line).
 
-            Plugin('RT::Extension::IncrementPriority');
-
-        For RT 4.0, add this line:
-
-            Set(@Plugins, qw(RT::Extension::IncrementPriority));
-
-        or add RT::Extension::IncrementPriority to your existing @Plugins
-        line.
-
-3. Restart your webserver
+3. Restart the RT webserver.
 
 AUTHORS
 -------
-
 - Joshua C. Randall <jcrandall@alum.mit.edu>
 - Kevin Riggle <kevinr@bestpractical.com>
 - Ruslan Zakirov <ruz@bestpractical.com>
 
 BUGS
 ----
-    All bugs should be reported via email to
-
-        L<bug-RT-Extension-IncrementPriority@rt.cpan.org|mailto:bug-RT-Extension-IncrementPriority@rt.cpan.org>
-
-    or via the web at
-
-        L<rt.cpan.org|http://rt.cpan.org/Public/Dist/Display.html?Name=RT-Extension-IncrementPriority>.
+All bugs should be reported either:
+- via email to: [bug-RT-Extension-IncrementPriority@rt.cpan.org](mailto:bug-RT-Extension-IncrementPriority@rt.cpan.org)
+- or via the web at: [rt.cpan.org](http://rt.cpan.org/Public/Dist/Display.html?Name=RT-Extension-IncrementPriority).
 
 LICENSE AND COPYRIGHT
 ---------------------
