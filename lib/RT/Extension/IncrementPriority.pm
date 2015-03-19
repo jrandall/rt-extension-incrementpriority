@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package RT::Extension::IncrementPriority;
 
-our $VERSION = '0.01';
+our $VERSION = '1.0.0';
 
 =head1 NAME
 
