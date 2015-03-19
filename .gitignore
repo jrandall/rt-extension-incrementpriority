@@ -13,5 +13,5 @@ pod2htm*.tmp
 /t/tmp
 /xt/tmp
 README
-META.yml
+MANIFEST
 
